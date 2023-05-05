@@ -1,12 +1,11 @@
-function PopupWithForm(props) {
+function PopupWithForm({ name, title, isOpen, onClose, children }) {
   return (
-    <section className={`popup popup_type_${props.name} ${props.isOpen} `} aria-label={props.name}>
+    <section className={`popup popup_type_${name} ${isOpen} `} aria-label={name}>
       <div className="popup__container">
-        <button onClick={props.onClose} className="popup__close" type="button"></button>
-        <h2 className="popup__title">{props.title}</h2>
-        <form className="popup__form" name={`popupForm${props.name}`} noValidate>
-          {props.children}
-          <button name="saveBtn" type="submit" className="popup__save">{props.btnText}</button>
+        <button onClick={onClose} className="popup__close" type="button"></button>
+        <h2 className="popup__title">{title}</h2>
+        <form className="popup__form" name={`popupForm${name}`} noValidate>
+          {children}
         </form>
       </div>
     </section>);
