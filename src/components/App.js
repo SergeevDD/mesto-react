@@ -3,7 +3,7 @@ import '../index.css';
 import Header from './Header.js'
 import Main from './Main.js'
 import Footer from './Footer.js'
-import PopupWithForm from './PopupWithForm.js';
+import AddPlacePopup from './AddPlacePopup.js';
 import EditProfilePopup from './EditProfilePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import ImagePopup from './ImagePopup.js';
@@ -35,9 +35,10 @@ function App() {
   }
 
   function handleCardDelete(id) {
+    console.log(id);
     api.removeCard(id)
-      .then((newCard) => {
-        setCards(state => state.filter((c) => c._id !== newCard._id));
+      .then(() => {
+        setCards(state => state.filter((c) => c._id !== id));
       });
   }
 
@@ -51,10 +52,18 @@ function App() {
 
   function handleUpdateAvatar(link) {
     api.setUserAvatar(link)
-    .then((newUser) => {
-      setCurrentUser(newUser);
-      setAvatarPopup(false);
-    });
+      .then((newUser) => {
+        setCurrentUser(newUser);
+        setAvatarPopup(false);
+      });
+  }
+
+  function handleAddPlaceSubmit(card) {
+    api.uploadCard(card)
+      .then((newCard) => {
+        setCards([newCard,...cards]);
+        setAddPopup(false);
+      });
   }
 
   function closeAllPopups() {
@@ -103,23 +112,11 @@ function App() {
       />
 
       <Footer />
-
-      <PopupWithForm
-        name='add'
-        title='Новое место'
-        isOpen={isAddPlacePopupOpen ? "popup_opened" : ""}
+      <AddPlacePopup
+        isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-      >
-        <><fieldset className="popup__input-field">
-          <input type="text" name="name" id="input-placename" placeholder="Название"
-            className="popup__input popup__input_type_place" required minLength="2" maxLength="30" />
-          <span className="popup__error" id="input-placename-error"></span>
-          <input type="url" name="link" id="input-placelink" placeholder="Ссылка"
-            className="popup__input popup__input_type_link" required />
-          <span className="popup__error" id="input-placelink-error"></span>
-        </fieldset><button name="saveBtn" type="submit" className="popup__save">Создать</button>
-        </>
-      </PopupWithForm>
+        onAddPlace={handleAddPlaceSubmit}
+      />
 
       <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
