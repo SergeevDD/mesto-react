@@ -4,6 +4,7 @@ import Header from './Header.js'
 import Main from './Main.js'
 import Footer from './Footer.js'
 import PopupWithForm from './PopupWithForm.js';
+import EditProfilePopup from './EditProfilePopup.js';
 import ImagePopup from './ImagePopup.js';
 import { api } from '../utils/Api.js'
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
@@ -25,7 +26,7 @@ function App() {
     setSelectedCard(card);
   }
 
-  function handleCardLike(card,isLiked) {
+  function handleCardLike(card, isLiked) {
     api.toggleLike(isLiked, card._id)
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
@@ -34,8 +35,17 @@ function App() {
 
   function handleCardDelete(id) {
     api.removeCard(id)
-    .then((newCard) => {
-      setCards(state => state.filter((c) => c._id !== newCard._id));
+      .then((newCard) => {
+        setCards(state => state.filter((c) => c._id !== newCard._id));
+      });
+  }
+
+  function handleUpdateUser(user) {
+    console.log(user);
+    api.setUserData(user)
+    .then((newUser) => {
+      setCurrentUser(newUser);
+      setProfilePopup(false);
     });
   }
 
@@ -45,6 +55,8 @@ function App() {
     setAddPopup(false);
     setSelectedCard({});
   }
+
+
 
   const [isEditProfilePopupOpen, setProfilePopup] = useState(false);
   const [isAddPlacePopupOpen, setAddPopup] = useState(false);
@@ -101,24 +113,12 @@ function App() {
         </>
       </PopupWithForm>
 
-      <PopupWithForm
-        name='edit'
-        title='Редактировать профиль'
-        isOpen={isEditProfilePopupOpen ? "popup_opened" : ""}
+      <EditProfilePopup
+        isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-      >
-        <>
-          <fieldset className="popup__input-field">
-            <input type="text" name="name" id="input-username" placeholder="Имя пользователя"
-              className="popup__input popup__input_type_name" required minLength="2" maxLength="40" />
-            <span className="popup__error" id="input-username-error"></span>
-            <input type="text" name="about" id="input-useractivity" placeholder="Виды деятельности"
-              className="popup__input popup__input_type_activity" required minLength="2" maxLength="200" />
-            <span className="popup__error" id="input-useractivity-error"></span>
-          </fieldset>
-          <button name="saveBtn" type="submit" className="popup__save">Сохранить</button>
-        </>
-      </PopupWithForm>
+        onUpdateUser={handleUpdateUser}
+      />
+
 
       <PopupWithForm
         name='avatar'
