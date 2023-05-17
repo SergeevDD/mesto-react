@@ -1,22 +1,17 @@
-import defaultAvatar from '../images/photo/default_ava.png'
+
 import editAvatar from '../images/logo/edit_btn.svg'
 import Card from '../components/Card.js'
 import { api } from '../utils/Api.js'
-import React from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
+import { useEffect, useState, useContext } from 'react';
 
 function Main({ onEditAvatar, onAddPlace, onEditProfile, onCardClick }) {
-  const [avatar, setAvatar] = React.useState(defaultAvatar);
-  const [name, setName] = React.useState('Имя');
-  const [about, setAbout] = React.useState('Деятельность');
-  const [cards, setCards] = React.useState([]);
+  const { name, about, avatar } = useContext(CurrentUserContext);
+  const [cards, setCards] = useState([]);
 
-
-  React.useEffect(() => {
-    Promise.all([api.getUserData(), api.getInitialCards()])
-      .then(([{ name, about, avatar }, cardList]) => {
-        setAvatar(avatar)
-        setName(name)
-        setAbout(about)
+  useEffect(() => {
+    api.getInitialCards()
+      .then((cardList) => {
         setCards(cardList)
       }
       )

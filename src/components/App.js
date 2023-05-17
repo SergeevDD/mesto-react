@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../index.css';
 import Header from './Header.js'
 import Main from './Main.js'
 import Footer from './Footer.js'
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
-
+import { api } from '../utils/Api.js'
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
+import defaultAvatar from '../images/photo/default_ava.png'
 
 function App() {
 
@@ -34,9 +36,28 @@ function App() {
   const [isAddPlacePopupOpen, setAddPopup] = useState(false);
   const [isEditAvatarPopupOpen, setAvatarPopup] = useState(false);
   const [selectedCard, setSelectedCard] = useState({})
+  const [currentUser, setCurrentUser] = useState(
+    {
+      name: "Имя",
+      about: "Деятельность",
+      avatar: { defaultAvatar }
+    });
+  const [card, setCard] = useState({})
+
+  useEffect(() => {
+    Promise.all([api.getUserData(), api.getInitialCards()])
+      .then(([{ name, about, avatar, _id }, cardList]) => {
+
+        setCurrentUser({ name, about, avatar, _id })
+        /* setCards(cardList) */
+
+      }
+      )
+      .catch((err) => console.log('Ошибка:', err))
+  }, []);
 
   return (
-    <>
+    <CurrentUserContext.Provider value={currentUser}>
       <Header />
 
       <Main
@@ -103,7 +124,7 @@ function App() {
 
         onClose={closeAllPopups}
       />
-    </>
+    </CurrentUserContext.Provider>
   );
 }
 
