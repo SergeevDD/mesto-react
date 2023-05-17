@@ -5,6 +5,7 @@ import Main from './Main.js'
 import Footer from './Footer.js'
 import PopupWithForm from './PopupWithForm.js';
 import EditProfilePopup from './EditProfilePopup.js';
+import EditAvatarPopup from './EditAvatarPopup.js';
 import ImagePopup from './ImagePopup.js';
 import { api } from '../utils/Api.js'
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
@@ -41,11 +42,18 @@ function App() {
   }
 
   function handleUpdateUser(user) {
-    console.log(user);
     api.setUserData(user)
+      .then((newUser) => {
+        setCurrentUser(newUser);
+        setProfilePopup(false);
+      });
+  }
+
+  function handleUpdateAvatar(link) {
+    api.setUserAvatar(link)
     .then((newUser) => {
       setCurrentUser(newUser);
-      setProfilePopup(false);
+      setAvatarPopup(false);
     });
   }
 
@@ -119,20 +127,11 @@ function App() {
         onUpdateUser={handleUpdateUser}
       />
 
-
-      <PopupWithForm
-        name='avatar'
-        title='Обновить аватар'
-        isOpen={isEditAvatarPopupOpen ? "popup_opened" : ""}
+      <EditAvatarPopup
+        isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-      >
-        <>
-          <input type="url" name="link" id="input-avatarlink" placeholder="Ссылка"
-            className="popup__input popup__input_type_link" required />
-          <span className="popup__error" id="input-avatarlink-error"></span>
-          <button name="saveBtn" type="submit" className="popup__save">Сохранить</button>
-        </>
-      </PopupWithForm>
+        onUpdateAvatar={handleUpdateAvatar}
+      />
 
       <ImagePopup
         card={selectedCard}
