@@ -1,22 +1,19 @@
 
 import editAvatar from '../images/logo/edit_btn.svg'
 import Card from '../components/Card.js'
-import { api } from '../utils/Api.js'
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import { useEffect, useState, useContext } from 'react';
+import { useContext } from 'react';
 
-function Main({ onEditAvatar, onAddPlace, onEditProfile, onCardClick }) {
+function Main(
+  { cards,
+    onEditAvatar,
+    onAddPlace,
+    onEditProfile,
+    onCardClick,
+    onCardLike,
+    onCardDelete }) {
+
   const { name, about, avatar } = useContext(CurrentUserContext);
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    api.getInitialCards()
-      .then((cardList) => {
-        setCards(cardList)
-      }
-      )
-      .catch((err) => console.log('Ошибка:', err))
-  }, []);
 
   return (
     <main>
@@ -39,6 +36,8 @@ function Main({ onEditAvatar, onAddPlace, onEditProfile, onCardClick }) {
             key={card._id}
             card={card}
             onCardClick={onCardClick}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
           />)
           )}
         </ul>

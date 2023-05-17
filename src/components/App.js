@@ -25,6 +25,20 @@ function App() {
     setSelectedCard(card);
   }
 
+  function handleCardLike(card,isLiked) {
+    api.toggleLike(isLiked, card._id)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      });
+  }
+
+  function handleCardDelete(id) {
+    api.removeCard(id)
+    .then((newCard) => {
+      setCards(state => state.filter((c) => c._id !== newCard._id));
+    });
+  }
+
   function closeAllPopups() {
     setAvatarPopup(false);
     setProfilePopup(false);
@@ -42,15 +56,13 @@ function App() {
       about: "Деятельность",
       avatar: { defaultAvatar }
     });
-  const [card, setCard] = useState({})
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
       .then(([{ name, about, avatar, _id }, cardList]) => {
-
         setCurrentUser({ name, about, avatar, _id })
-        /* setCards(cardList) */
-
+        setCards(cardList)
       }
       )
       .catch((err) => console.log('Ошибка:', err))
@@ -61,10 +73,13 @@ function App() {
       <Header />
 
       <Main
+        cards={cards}
         onEditAvatar={handleEditAvatarClick}
         onAddPlace={handleAddPlaceClick}
         onEditProfile={handleEditProfileClick}
         onCardClick={handleCardClick}
+        onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
       />
 
       <Footer />
