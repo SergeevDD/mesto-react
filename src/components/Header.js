@@ -2,9 +2,12 @@ import logo from '../images/logo/logo_white.svg';
 
 function Header() {
   return (
-
     <header className="header">
-      <img src={logo} alt="место" className="header__logo" />
+      <img
+        src={logo}
+        alt="место"
+        className="header__logo"
+      />
     </header>
   );
 }

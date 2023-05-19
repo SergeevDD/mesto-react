@@ -24,8 +24,8 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
     });
   }
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState("Name");
+  const [description, setDescription] = useState("Action");
   const [nameValidateMsg, setNameValidateMsg] = useState();
   const [descriptionValidateMsg, setDescriptionValidateMsg] = useState();
   const [nameValidity, setNameValidity] = useState(true);
@@ -33,9 +33,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
   const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
+    setNameValidateMsg('');
+    setDescriptionValidateMsg('');
     setName(currentUser.name);
     setDescription(currentUser.about);
-  }, [currentUser,isOpen]);
+  }, [currentUser, isOpen]);
 
   return (
     <PopupWithForm
@@ -47,15 +49,50 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, isLoading }) {
     >
       <>
         <fieldset className="popup__input-field">
-          <input onChange={handleChangeName} type="text" name="name" id="input-username" placeholder="Имя пользователя"
-            className="popup__input popup__input_type_name" required minLength="2" maxLength="40" value={name} />
-          <span className="popup__error popup__error_visible" id="input-username-error">{nameValidateMsg}</span>
-          <input onChange={handleChangeDescription} type="text" name="about" id="input-useractivity" placeholder="Виды деятельности"
-            className="popup__input popup__input_type_activity" required minLength="2" maxLength="200" value={description} />
-          <span className="popup__error popup__error_visible" id="input-useractivity-error">{descriptionValidateMsg}</span>
+          <input
+            onChange={handleChangeName}
+            type="text"
+            name="name"
+            id="input-username"
+            placeholder="Имя пользователя"
+            className="popup__input popup__input_type_name"
+            required
+            minLength="2"
+            maxLength="40"
+            value={name}
+          />
+          <span
+            className="popup__error popup__error_visible"
+            id="input-username-error"
+          >
+            {nameValidateMsg}
+          </span>
+          <input
+            onChange={handleChangeDescription}
+            type="text"
+            name="about"
+            id="input-useractivity"
+            placeholder="Виды деятельности"
+            className="popup__input popup__input_type_activity"
+            required minLength="2"
+            maxLength="200"
+            value={description}
+          />
+          <span
+            className="popup__error popup__error_visible"
+            id="input-useractivity-error"
+          >
+            {descriptionValidateMsg}
+          </span>
         </fieldset>
-        <button disabled={!(nameValidity && descriptionValidity)} name="saveBtn" type="submit"
-        className={`popup__save ${nameValidity && descriptionValidity ? "" : "popup__save_disabled"}`}>Сохранить{isLoading && nameValidity && descriptionValidity ? "..." : ""}</button>
+        <button
+          disabled={!(nameValidity && descriptionValidity)}
+          name="saveBtn"
+          type="submit"
+          className={`popup__save ${nameValidity && descriptionValidity ? "" : "popup__save_disabled"}`}
+        >
+          Сохранить{isLoading && nameValidity && descriptionValidity ? "..." : ""}
+        </button>
       </>
     </PopupWithForm>);
 }

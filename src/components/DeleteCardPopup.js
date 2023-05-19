@@ -16,7 +16,11 @@ function DeleteCardPopup({ isOpen, onClose, onDeleteCard, isLoading }) {
       onSubmit={handleSubmit}
     >
       <>
-        <button name="saveBtn" type="submit" className="popup__save">
+        <button
+          name="saveBtn"
+          type="submit"
+          className="popup__save"
+        >
           {isLoading && isOpen ? "Удаление..." : "Да"}
         </button>
       </>

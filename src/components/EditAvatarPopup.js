@@ -33,11 +33,29 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
       onSubmit={handleSubmit}
     >
       <>
-        <input onChange={handleValidity} ref={linkRef} type="url" name="link" id="input-avatarlink" placeholder="Ссылка"
-          className="popup__input popup__input_type_link" required />
-        <span className="popup__error popup__error_visible" id="input-avatarlink-error">{linkValidateMsg}</span>
-        <button name="saveBtn" type="submit"
-        className={`popup__save ${linkValidity ? "" : "popup__save_disabled"}`}>Сохранить{isLoading && isOpen && linkValidity ? "..." : ""}</button>
+        <input
+          onChange={handleValidity}
+          ref={linkRef}
+          type="url"
+          name="link"
+          id="input-avatarlink"
+          placeholder="Ссылка"
+          className="popup__input popup__input_type_link"
+          required
+        />
+        <span
+          className="popup__error popup__error_visible"
+          id="input-avatarlink-error"
+        >
+          {linkValidateMsg}
+        </span>
+        <button
+          name="saveBtn"
+          type="submit"
+          className={`popup__save ${linkValidity ? "" : "popup__save_disabled"}`}
+        >
+          Сохранить{isLoading && isOpen && linkValidity ? "..." : ""}
+        </button>
       </>
     </PopupWithForm>);
 }

@@ -14,7 +14,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   }
 
   function handleLikeClick() {
-    onCardLike(card,isLiked)
+    onCardLike(card, isLiked)
   }
 
   function handleDeleteClick() {
@@ -23,10 +23,19 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
 
   return (
     <li className="photo__card">
-      <img onClick={handleClick} className="photo__image" alt={card.name} src={card.link} />
+      <img
+        onClick={handleClick}
+        className="photo__image"
+        alt={card.name}
+        src={card.link}
+      />
       <h2 className="photo__name">{card.name}</h2>
       <label className="photo__likes">
-        <button onClick={handleLikeClick} type="button" className={cardLikeButtonClassName}></button>
+        <button
+          onClick={handleLikeClick}
+          type="button"
+          className={cardLikeButtonClassName}>
+        </button>
         <span className="photo__like-value">{card.likes.length}</span>
       </label>
       {isOwn && <button className="photo__delete-btn" onClick={handleDeleteClick} />}

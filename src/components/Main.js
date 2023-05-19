@@ -19,15 +19,32 @@ function Main(
     <main>
       <section className="profile">
         <div className="avatar" onClick={onEditAvatar}>
-          <img src={avatar} alt="аватар" className="avatar__image" />
-          <img src={editAvatar} alt="изменить фото" className="avatar__edit" />
+          <img
+            src={avatar}
+            alt="аватар"
+            className="avatar__image"
+          />
+          <img
+            src={editAvatar}
+            alt="изменить фото"
+            className="avatar__edit"
+          />
         </div>
         <div className="profile__info">
           <h1 className="profile__name">{name}</h1>
-          <button onClick={onEditProfile} className="profile__edit-btn" type="button"></button>
+          <button
+            onClick={onEditProfile}
+            className="profile__edit-btn"
+            type="button"
+          >
+          </button>
           <p className="profile__activity">{about}</p>
         </div>
-        <button onClick={onAddPlace} className="profile__add-btn" type="button"></button>
+        <button
+          onClick={onAddPlace}
+          className="profile__add-btn"
+          type="button">
+        </button>
       </section>
       <section className="photo" aria-label="photo">
         <ul className="photo__list">

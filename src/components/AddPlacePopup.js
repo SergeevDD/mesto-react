@@ -48,15 +48,44 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
     >
       <>
         <fieldset className="popup__input-field">
-          <input onChange={handleChangeName} type="text" name="name" id="input-placename" placeholder="Название"
-            className="popup__input popup__input_type_place" required minLength="2" maxLength="30" value={name} />
-          <span className="popup__error popup__error_visible" id="input-placename-error">{nameValidateMsg}</span>
-          <input onChange={handleChangeLink} type="url" name="link" id="input-placelink" placeholder="Ссылка"
-            className="popup__input popup__input_type_link" required value={link} />
-          <span className="popup__error popup__error_visible" id="input-placelink-error">{linkValidateMsg}</span>
+          <input
+            onChange={handleChangeName}
+            type="text"
+            name="name"
+            id="input-placename"
+            placeholder="Название"
+            className="popup__input popup__input_type_place"
+            required
+            minLength="2"
+            maxLength="30"
+            value={name}
+          />
+          <span
+            className="popup__error popup__error_visible"
+            id="input-placename-error">{nameValidateMsg}
+          </span>
+          <input
+            onChange={handleChangeLink}
+            type="url"
+            name="link"
+            id="input-placelink"
+            placeholder="Ссылка"
+            className="popup__input popup__input_type_link"
+            required
+            value={link}
+          />
+          <span
+            className="popup__error popup__error_visible"
+            id="input-placelink-error">{linkValidateMsg}
+          </span>
         </fieldset>
-        <button disabled={!(nameValidity && linkValidity)} name="saveBtn" type="submit"
-          className={`popup__save ${nameValidity && linkValidity ? "" : "popup__save_disabled"}`}>Создать{isLoading && nameValidity && linkValidity ? "..." : ""}</button>
+        <button
+          disabled={!(nameValidity && linkValidity)}
+          name="saveBtn"
+          type="submit"
+          className={`popup__save ${nameValidity && linkValidity ? "" : "popup__save_disabled"}`}>
+          Создать{isLoading && nameValidity && linkValidity ? "..." : ""}
+        </button>
       </>
     </PopupWithForm>);
 }
